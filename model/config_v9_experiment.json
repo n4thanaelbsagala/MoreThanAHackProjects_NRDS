@@ -1,0 +1,21 @@
+{
+  "version": 9,
+  "control_distance_m": 2.5,
+  "opponent_margin_m": 0.75,
+  "control_frames": 12,
+  "evidence_gap_frames": 0,
+  "out_of_bounds_frames": 25,
+  "set_piece_stationary_frames": 25,
+  "set_piece_stationary_radius_m": 0.5,
+  "set_piece_backfill": true,
+  "control_backfill": true,
+  "pitch_tolerance": 0.005,
+  "stationary_unattended_frames": 25,
+  "stationary_unattended_radius_m": 0.5,
+  "stationary_unattended_min_player_m": 2.0,
+  "stationary_observed_frames": 75,
+  "stationary_observed_radius_m": 0.5,
+  "tracking_freeze_epsilon_m": 0.001,
+  "opponent_restart_control_frames": 3,
+  "opponent_restart_min_ball_speed_mps": 0.2
+}

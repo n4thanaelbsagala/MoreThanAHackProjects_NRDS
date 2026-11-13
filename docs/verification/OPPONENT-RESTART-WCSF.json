@@ -1,0 +1,93 @@
+{
+  "models": {
+    "v8": {
+      "config": "model/config_v8.json",
+      "frames": 57374,
+      "metrics": {
+        "accuracy": 0.8252344267438212,
+        "macro_f1": 0.8156321764581298,
+        "n_graded": 57374,
+        "spell_f1_mean": 0.5028263795423957,
+        "team_acc_both_alive": 0.8977981589506693,
+        "team_acc_gt_alive": 0.8706428618141391
+      },
+      "restart_audit": {
+        "events": {
+          "eligible_after_1s": 99,
+          "eligible_after_3s": 69,
+          "first_live_correct": 85,
+          "first_live_previous_team": 20,
+          "first_live_wrong": 6,
+          "no_predicted_live_before_next_reference_change": 11,
+          "predicted_D_at_restart": 32,
+          "reference_restarts": 102,
+          "reference_team_changed": 82,
+          "reference_team_same": 20,
+          "still_D_after_1s": 20,
+          "still_D_after_3s": 2
+        },
+        "first_live_delay_frames": {
+          "count": 91,
+          "mean": 3.021978021978022,
+          "median": 0,
+          "p90": 11
+        },
+        "reference_team_changed": {
+          "events": 75,
+          "predicted_new_team": 70,
+          "predicted_previous_team": 5
+        }
+      },
+      "source_hashes": {
+        "positions_FIRST_HALF.csv.zip": "e7e5d753dba30549a01f2e37695556dc3cdf62043e8e3e6447a71e77da30fede",
+        "positions_SECOND_HALF.csv.zip": "8653a296952a717eb1f106fce77bf497f28e34cae673f7e3ae6baa61908751ae"
+      }
+    },
+    "v9_experiment": {
+      "config": "model/config_v9_experiment.json",
+      "frames": 57374,
+      "metrics": {
+        "accuracy": 0.8294000766897898,
+        "macro_f1": 0.8200847462819875,
+        "n_graded": 57374,
+        "spell_f1_mean": 0.5030544488711819,
+        "team_acc_both_alive": 0.8939545091779728,
+        "team_acc_gt_alive": 0.8790464979399647
+      },
+      "restart_audit": {
+        "events": {
+          "eligible_after_1s": 99,
+          "eligible_after_3s": 69,
+          "first_live_correct": 89,
+          "first_live_previous_team": 21,
+          "first_live_wrong": 10,
+          "no_predicted_live_before_next_reference_change": 3,
+          "predicted_D_at_restart": 26,
+          "reference_restarts": 102,
+          "reference_team_changed": 82,
+          "reference_team_same": 20,
+          "still_D_after_1s": 13,
+          "still_D_after_3s": 0
+        },
+        "first_live_delay_frames": {
+          "count": 99,
+          "mean": 2.3434343434343434,
+          "median": 0,
+          "p90": 11
+        },
+        "reference_team_changed": {
+          "events": 80,
+          "predicted_new_team": 74,
+          "predicted_previous_team": 6
+        }
+      },
+      "source_hashes": {
+        "positions_FIRST_HALF.csv.zip": "e7e5d753dba30549a01f2e37695556dc3cdf62043e8e3e6447a71e77da30fede",
+        "positions_SECOND_HALF.csv.zip": "8653a296952a717eb1f106fce77bf497f28e34cae673f7e3ae6baa61908751ae"
+      }
+    }
+  },
+  "predeclared_gate_passed": false,
+  "protocol": "docs/verification/OPPONENT-RESTART-PROTOCOL.md",
+  "source": "previously inspected WCSF provider reference"
+}

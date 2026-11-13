@@ -1,0 +1,80 @@
+{
+  "purpose": "diagnostic only; not independent model selection",
+  "source": "WCSF already-inspected provider references",
+  "versions": {
+    "v7_stoppage": {
+      "frames": 57374,
+      "h_a_d_agreement": 0.7647366402900269,
+      "reference_conflicts": 111,
+      "restart_audit": {
+        "events": {
+          "eligible_after_1s": 99,
+          "eligible_after_3s": 69,
+          "first_live_correct": 96,
+          "first_live_previous_team": 18,
+          "first_live_wrong": 2,
+          "no_predicted_live_before_next_reference_change": 4,
+          "predicted_D_at_restart": 11,
+          "reference_restarts": 102,
+          "reference_team_changed": 82,
+          "reference_team_same": 20,
+          "still_D_after_1s": 9,
+          "still_D_after_3s": 1
+        },
+        "first_live_delay_frames": {
+          "count": 98,
+          "mean": 1.0816326530612246,
+          "median": 0.0,
+          "p90": 0
+        },
+        "reference_team_changed": {
+          "events": 80,
+          "predicted_new_team": 79,
+          "predicted_previous_team": 1
+        }
+      },
+      "source_hashes": {
+        "positions_FIRST_HALF.csv.zip": "e7e5d753dba30549a01f2e37695556dc3cdf62043e8e3e6447a71e77da30fede",
+        "positions_SECOND_HALF.csv.zip": "8653a296952a717eb1f106fce77bf497f28e34cae673f7e3ae6baa61908751ae"
+      },
+      "spell_f1_mean": 0.47698309492847846
+    },
+    "v8": {
+      "frames": 57374,
+      "h_a_d_agreement": 0.8252344267438212,
+      "reference_conflicts": 111,
+      "restart_audit": {
+        "events": {
+          "eligible_after_1s": 99,
+          "eligible_after_3s": 69,
+          "first_live_correct": 85,
+          "first_live_previous_team": 20,
+          "first_live_wrong": 6,
+          "no_predicted_live_before_next_reference_change": 11,
+          "predicted_D_at_restart": 32,
+          "reference_restarts": 102,
+          "reference_team_changed": 82,
+          "reference_team_same": 20,
+          "still_D_after_1s": 20,
+          "still_D_after_3s": 2
+        },
+        "first_live_delay_frames": {
+          "count": 91,
+          "mean": 3.021978021978022,
+          "median": 0,
+          "p90": 11
+        },
+        "reference_team_changed": {
+          "events": 75,
+          "predicted_new_team": 70,
+          "predicted_previous_team": 5
+        }
+      },
+      "source_hashes": {
+        "positions_FIRST_HALF.csv.zip": "e7e5d753dba30549a01f2e37695556dc3cdf62043e8e3e6447a71e77da30fede",
+        "positions_SECOND_HALF.csv.zip": "8653a296952a717eb1f106fce77bf497f28e34cae673f7e3ae6baa61908751ae"
+      },
+      "spell_f1_mean": 0.5028263795423957
+    }
+  }
+}
