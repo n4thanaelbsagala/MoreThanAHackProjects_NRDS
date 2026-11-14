@@ -6,6 +6,7 @@ synthetic inputs. No labels or thresholds are learned from the supplied match.
 
 import csv
 import json
+import math
 import os
 from collections import Counter
 
@@ -51,6 +52,14 @@ def load_config(path):
     if (config.get('restart_min_ball_speed_mps') is not None
             and config['restart_min_ball_speed_mps'] < 0):
         raise ValueError('invalid restart motion threshold')
+    if config.get('opponent_restart_control_frames') is not None:
+        if (not isinstance(config['opponent_restart_control_frames'], int)
+                or isinstance(config['opponent_restart_control_frames'], bool)
+                or config['opponent_restart_control_frames'] < 1
+                or not isinstance(config.get('opponent_restart_min_ball_speed_mps'), (int, float))
+                or not math.isfinite(config['opponent_restart_min_ball_speed_mps'])
+                or config['opponent_restart_min_ball_speed_mps'] < 0):
+            raise ValueError('invalid opponent restart settings')
     return config
 
 

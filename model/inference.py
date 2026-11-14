@@ -33,6 +33,10 @@ def infer(evidence, blocks, config):
         pending = None
         pending_first = None
         votes = gap = outside_run = 0
+        pre_dead_team = None
+        fast_candidate = None
+        fast_votes = 0
+        fast_first = None
         for frame in range(first, last + 1):
             row = evidence[frame]
             candidate = row["candidate"]
@@ -46,7 +50,10 @@ def infer(evidence, blocks, config):
                         and row.get("stationary_unattended", False))
                     or (config.get("stationary_observed_frames") is not None
                         and row.get("stationary_observed", False))):
+                if state in ("H", "A"):
+                    pre_dead_team = state
                 state = "D"
+                fast_candidate, fast_votes, fast_first = None, 0, None
                 pending, pending_first, votes, gap = None, None, 0, 0
                 labels[frame] = "D"
                 reasons[frame] = ("sustained_out_of_bounds" if outside_run >= config["out_of_bounds_frames"]
@@ -62,6 +69,18 @@ def infer(evidence, blocks, config):
                     and (row.get('ball_speed_mps') is None
                          or row['ball_speed_mps'] < config['restart_min_ball_speed_mps'])):
                 candidate = None
+            fast_frames = config.get('opponent_restart_control_frames')
+            if (state == 'D' and fast_frames is not None
+                    and pre_dead_team in ('H', 'A')
+                    and candidate in ('H', 'A') and candidate != pre_dead_team
+                    and row.get('ball_speed_mps') is not None
+                    and row['ball_speed_mps'] >= config['opponent_restart_min_ball_speed_mps']):
+                if candidate == fast_candidate:
+                    fast_votes += 1
+                else:
+                    fast_candidate, fast_votes, fast_first = candidate, 1, frame
+            else:
+                fast_candidate, fast_votes, fast_first = None, 0, None
             if candidate is not None and candidate != state:
                 if candidate != pending:
                     pending, votes, gap = candidate, 0, 0
@@ -70,14 +89,17 @@ def infer(evidence, blocks, config):
                 gap = 0
                 needed = (config.get('restart_control_frames', config['control_frames'])
                           if state == 'D' else config['control_frames'])
-                if votes >= needed:
+                fast_ready = state == 'D' and fast_frames is not None and fast_votes >= fast_frames
+                if votes >= needed or fast_ready:
+                    confirmed_first = fast_first if fast_ready else pending_first
                     state = candidate
                     if config.get("control_backfill", False):
-                        for confirmed_frame in range(pending_first, frame):
+                        for confirmed_frame in range(confirmed_first, frame):
                             labels[confirmed_frame] = candidate
                             reasons[confirmed_frame] = "control_backfilled"
                     pending, votes = None, 0
                     pending_first = None
+                    fast_candidate, fast_votes, fast_first = None, 0, None
                     reason = "control_confirmed"
                 else:
                     reason = "control_pending"

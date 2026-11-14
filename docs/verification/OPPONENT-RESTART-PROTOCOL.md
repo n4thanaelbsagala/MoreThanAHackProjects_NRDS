@@ -1,0 +1,7 @@
+# Prespecified opposite-team restart experiment
+
+Date: 2026-11-12. Base v8: `c9d1c46082784f12562e8de609d74fd93c1a00cb`.
+
+Hypothesis: v8's fixed 12-frame control confirmation keeps D after an observed restart. Preserve v8 intact and enable an optional fast confirmation only when the candidate team differs from the last confirmed H/A before D, the ball's timestamp-based speed is at least 0.2 m/s on every fast-confirmation frame, and the candidate persists for three uninterrupted frames at 25 fps. Backfill only this confirmed observed fast run; reset at missing evidence, an active stoppage cue, and halftime. A same-team restart retains v8's normal confirmation. No reference labels enter inference.
+
+The first exploratory comparison uses the already-inspected WCSF match at 10 fps, with the frame-count duration scaled to a minimum of two frames. This test can identify obvious harm but is not independent validation or a basis for retuning. Before seeing the result, require improvements over v8 in official-implementation spellF1 and number of D-at-restart events, no reduction beyond 0.5 percentage points in overall H/A/D agreement, macroF1, strict live-team agreement or conditional live-team agreement, and no increase in first-live previous-team predictions when the reference team changes. If any condition fails, do not recommend the candidate or adjust it using WCSF. The seven IDSSE matches used for v8 development are not locally available; their published aggregate results are not a paired test for this rule. Full challenge labels are unavailable.
