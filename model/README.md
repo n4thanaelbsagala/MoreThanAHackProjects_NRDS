@@ -2,6 +2,8 @@
 
 The submission model is **temporal v8**, configured by `config_v8.json` and frozen in
 `v8_frozen.json`. Run it through `run.py`; the root README contains the exact final command.
+In the frozen record, `code_base_revision` names the pre-v8 starting point and
+`frozen_candidate_revision` names the commit containing the selected v8 implementation.
 
 ## Final inference path
 

@@ -3,7 +3,7 @@
 **Final model:** Temporal v8 (`model/config_v8.json`)  
 **Submission:** `NRDS.csv`  
 **Code:** https://github.com/n4thanaelbsagala/MoreThanAHackProjects_NRDS  
-**Verified public code revision:** `ce39ad61a4b089b1611cafb7f110279ab2db6b8d`  
+**Verified public code revision:** `2c6f9f17bf0a5f39493a583fa1e68a4790f1d891`
 **Frozen v8 base revision:** `c9d1c46082784f12562e8de609d74fd93c1a00cb`  
 **Official starter revision:** `f8f2629ff1e0985f81d7e59d8413678514ee1530`
 
@@ -163,7 +163,7 @@ Python 3.9.6 on macOS arm64 was used for the verified run. The pinned environmen
 ```bash
 git clone https://github.com/n4thanaelbsagala/MoreThanAHackProjects_NRDS.git
 cd MoreThanAHackProjects_NRDS
-git checkout ce39ad61a4b089b1611cafb7f110279ab2db6b8d
+git checkout 2c6f9f17bf0a5f39493a583fa1e68a4790f1d891
 
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-lock.txt

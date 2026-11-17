@@ -1,9 +1,8 @@
 # ---------------------------------------------------------------------------------------------
 # This repository is public. The full-match ground truth is not.
 #
-# Everything below either is a private asset, would leak the answer, or is generated output. The
-# history of this repo is new, so anything committed once is committed forever -- when in doubt,
-# add it here first and take it out later.
+# The patterns below protect private assets and generated output. Review new files before adding
+# them: an ignore rule cannot remove sensitive data from existing Git history.
 # ---------------------------------------------------------------------------------------------
 
 # -- private ground truth ----------------------------------------------------------------------
@@ -15,8 +14,7 @@
 possession_by_frame.pkl
 
 # -- submissions -------------------------------------------------------------------------------
-# Any file in results/ is a set of labels for the whole match. A perfect one is a copy of the
-# ground truth, so the folder ships empty and stays that way.
+# Generated full-match predictions stay local. The four official baseline CSVs are tracked.
 evaluation/results/*.csv
 
 # ...with one deliberate exception. The baselines are computed from the ATD alone -- the same ATD
@@ -87,3 +85,4 @@ env/
 *.log
 *.tmp
 .DS_Store
+.git.outer-backup-*/

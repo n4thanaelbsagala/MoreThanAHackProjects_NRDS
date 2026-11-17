@@ -4,6 +4,7 @@
   "candidate": "observed75",
   "operating_mode": "offline",
   "code_base_revision": "2dadaf6a531ac287e26317cb6272fa44e64be7e6",
+  "frozen_candidate_revision": "c9d1c46082784f12562e8de609d74fd93c1a00cb",
   "config": "model/config_v8.json",
   "config_sha256": "61ab5e79210abfd7ba07c24d785890bdeb7f507f43d0c2e0f41d96f7926f6238",
   "dataset_manifest": "model/dataset_manifest_v8.json",

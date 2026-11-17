@@ -12,7 +12,7 @@
 - Evidence: README/model/docs indexes identify the final package and exact command; only byte-identical ignored repeats and recreatable generated outputs were removed. All 100 tests passed; strict ATD alignment passed; fresh v8 output and diagnostics matched the retained files byte-for-byte; the exact 199,319-row NRDS CSV passed the official validator; the isolated official baseline scorer ran; secret/restricted-history, ignore-rule, official-code, diff, and tree reviews passed. Full record: `docs/verification/TASK-016.md`.
 - Blocker: none for local organization. Publishing or submitting still requires explicit authorization.
 - Last updated: 2026-11-16
-- Handoff: team reviews the organized diff and technical document, then separately authorizes any commit/push. Upload the validated ignored `NRDS.csv`, public repository URL, and technical document through the organizer form; no submission has been made.
+- Handoff: the owner committed and pushed the cleanup as `2c6f9f1`. Review the current documentation follow-up before authorizing any further commit/push. Upload the validated ignored `NRDS.csv`, public repository URL, and technical document through the organizer form; no submission has been made.
 
 ### TASK-015 — Improve dead-ball generalization with grouped development evaluation
 - Status: done
@@ -220,7 +220,7 @@ independent generalization result is available.
 - Scope: final configuration, input/code/dependency fingerprints, technical document, restricted-data review and delivery checklist.
 - Acceptance criteria: exact team-named CSV passes the official validator; repeated generation hashes match; document covers approach, assets, training-data provenance, possession rules, limitations and reproduction; no restricted assets or reconstructive exports are tracked.
 - Verification: official validator, repeat hash, clean-clone reproduction instructions, diff and Git content review; record in `docs/verification/TASK-007.md`.
-- Evidence: Team name `NRDS` confirmed. Frozen temporal v8 and local `evaluation/results/NRDS.csv` selected. The submission-ready document is `docs/NRDS_technical_document.md`. Current public revision `ce39ad6...` passed 100 tests and regenerated the exact validated CSV, SHA-256 `97bf92b0...a0ff19`. Content, provenance, rules, secrets/restricted-data, diff and claim checks passed. Full record: `docs/verification/TASK-007.md`.
+- Evidence: Team name `NRDS` confirmed. Frozen temporal v8 and local `evaluation/results/NRDS.csv` selected. The submission-ready document is `docs/NRDS_technical_document.md`. Revision `ce39ad6...` passed 100 tests and regenerated the exact validated CSV, SHA-256 `97bf92b0...a0ff19`; the current public cleanup revision is `2c6f9f1...`. Content, provenance, rules, secrets/restricted-data, diff and claim checks passed. Full record: `docs/verification/TASK-007.md`.
 - Blocker: none for local package preparation. Submission through the organizer form requires separate user action; no organizer acceptance is implied.
 - Last updated: 2026-11-16
 - Handoff: upload `NRDS.csv`, the public repository URL, and the technical document through the team’s emailed Google Form after the final repository review; no form submission has been made.

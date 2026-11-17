@@ -47,6 +47,6 @@ The public revision was separately extracted to a temporary directory, tested, r
   is not established; the document identifies them as provider references, not ground truth.
 - No untouched compatible final-test match remains, so independent v8 accuracy is unverified.
 - No public-window v8 metric or private BAR–ATH score is reported.
-- The technical document and this record are local changes until the user authorises commit/push.
-  No Google Form submission has been made, and the submission URL is only available to the team
-  by email.
+- The owner later committed and pushed the document in `8dfadb1`; the cleanup followed in
+  `2c6f9f1`. This record preserves the earlier verification snapshot. No Google Form submission
+  has been made, and the submission URL is only available to the team by email.
