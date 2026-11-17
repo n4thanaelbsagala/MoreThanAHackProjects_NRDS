@@ -197,18 +197,18 @@ are not available. No performance improvement over the official baseline has bee
 - Handoff: prepare TASK-007 submission document once the registered team name is known; seek a compatible independent labeled match before claiming any model gain.
 
 ### TASK-007 — Prepare the reproducible submission package
-- Status: planned
+- Status: verifying
 - Priority: P1
-- Owner: unassigned
+- Owner: Codex
 - Depends on: TASK-005; TASK-006 completed or explicitly deferred; registered team name
 - Goal: Produce an exact validated team-named CSV and short technical document from one documented command.
 - Scope: final configuration, input/code/dependency fingerprints, technical document, restricted-data review and delivery checklist.
 - Acceptance criteria: exact team-named CSV passes the official validator; repeated generation hashes match; document covers approach, assets, training-data provenance, possession rules, limitations and reproduction; no restricted assets or reconstructive exports are tracked.
 - Verification: official validator, repeat hash, clean-clone reproduction instructions, diff and Git content review; record in `docs/verification/TASK-007.md`.
-- Evidence: pending; current `temporal_v2.csv` is a validated prototype, not a final team-named submission.
-- Blocker: team name and final method selection are outstanding; publication and form submission require separate authorization.
-- Last updated: 2026-11-10
-- Handoff: check upstream revision before final preparation; ask the owner for the registered team name and submission authorization when the package is ready.
+- Evidence: Team name `NRDS` confirmed. Frozen temporal v8 and local `evaluation/results/NRDS.csv` selected. The submission-ready document is `docs/NRDS_technical_document.md`. Current public revision `ce39ad6...` passed 100 tests and regenerated the exact validated CSV, SHA-256 `97bf92b0...a0ff19`. Content, provenance, rules, secrets/restricted-data, diff and claim checks passed. Full record: `docs/verification/TASK-007.md`.
+- Blocker: none for local package preparation. Committing/pushing the document and submitting the form require separate user authorization.
+- Last updated: 2026-11-16
+- Handoff: review the technical document with the team, then request authorization to commit/push it. Upload `NRDS.csv`, the public repository URL and the technical document through the team’s emailed Google Form; no form submission has been made.
 
 ### TASK-010 — Tune temporal settings on external matches
 - Status: done
