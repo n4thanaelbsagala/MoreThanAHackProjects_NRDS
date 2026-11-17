@@ -19,7 +19,7 @@
 | `.venv/bin/python model/run.py --config model/config.json --output evaluation/results/temporal_interface_v1.csv --diagnostics evaluation/reports/temporal_interface_v1_diagnostics.csv` | PASS, tactical team names Barcelona / Atletic Club. |
 | Same model command with `temporal_interface_v1_repeat.csv` and matching repeat diagnostics path | PASS, prediction SHA-256 on both runs `fe13eb9a04a544532c757bac2e6df0cc3f63f68c40f48384ca218a0e9b677c78`; diagnostic SHA-256 on both runs `7dbdfaee9d47f43ba45687aac2a5c2bf780fe6e77e80e1130160a3212bf70a8d`. |
 | `.venv/bin/python evaluation/validate_submission.py evaluation/results/temporal_interface_v1.csv` | PASS, exactly `frame,label`, 199,319 rows, ordered unique frames 0–199318, legal labels and no blanks. |
-| `git diff --check` and independent read-only agent review | PASS after fixing a same-path output/diagnostics collision. Official `games.py`, `starter/`, and evaluator source have no tracked changes. |
+| `git diff --check` and independent read-only review | PASS after fixing a same-path output/diagnostics collision. Official `games.py`, `starter/`, and evaluator source have no tracked changes. |
 
 The delivered model CSV has H 78,057; A 69,659; D 10,850; X 40,753. An independent diagnostic scan found 388 label transitions, 324 H/A intervals (median 9.26 s), 13 H/A intervals under one second, 62 D intervals and 113,488 frames with an observed ball. D frames comprise 2,420 sustained out-of-bounds, 902 stationary set-piece, and 7,528 awaiting confirmed restart. These counts check implementation behavior, not prediction accuracy.
 

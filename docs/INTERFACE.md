@@ -48,7 +48,7 @@ ground truth, or scorer output.
 
 `model/config.json` retains v1 behavior. `model/config_v2.json` enables optional
 backfill of an observed stationary set-piece window after it has been confirmed;
-the duration and radius thresholds are unchanged. No agent changes either file
+the duration and radius thresholds are unchanged. Neither file is changed
 independently; any new threshold requires lead coordination and a documented
 general rationale. Synthetic tests must cover missing evidence, incidental touches,
 confirmed turnovers, stoppages, restarts, half boundaries, and invalid blocks.

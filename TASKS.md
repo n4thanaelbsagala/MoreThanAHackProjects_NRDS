@@ -3,7 +3,6 @@
 ### TASK-016 — Organize and verify the final submission repository
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-007, TASK-015
 - Goal: Present the frozen v8 implementation as a clear, reproducible submission repository without changing predictions or official challenge code.
 - Scope: root handoff README; model and documentation indexes; final artifact naming; ignore-rule and tracked-history safety audit; removal of byte-identical generated duplicates; current task handoff. Preserve unique experiments and restricted local inputs.
@@ -17,7 +16,6 @@
 ### TASK-015 — Improve dead-ball generalization with grouped development evaluation
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-014
 - Goal: Improve dead-ball evidence and possession-spell quality without tuning on WCSF or the challenge public labels, then freeze a reproducible candidate using match-grouped development evidence.
 - Scope: explicit dataset manifest; seven-match IDSSE grouped cross-validation; failure diagnostics; bounded dead-evidence/temporal ablations; synthetic regression tests; frozen configuration, tactical output and verification record. Preserve v7 and official evaluation code.
@@ -31,7 +29,6 @@
 ### TASK-014 — Freeze, refine and independently assess the temporal model
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-013
 - Goal: Execute the four-stage completion plan: reserve a fresh external test, improve live/dead and possession coherence on development data, run one frozen external test, and choose the challenge candidate by the official ranking metric.
 - Scope: a pinned WCSF test protocol; development-only model refinement; a separate WCSF adapter and synthetic tests; official spell metrics on external references; final model choice and reproducibility evidence. Official baseline/evaluator files remain unchanged.
@@ -45,7 +42,6 @@
 ### TASK-013 — Detect observed unattended stoppages
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-012
 - Goal: Stop emitting a controlling team during sustained stationary, unattended ball periods and require renewed control at restart.
 - Scope: separate stoppage evidence, optional inference cue, versioned configuration, synthetic tests, external development diagnostic, tactical artifact and verification record.
@@ -64,7 +60,6 @@ the former nested folder was moved here on 2026-11-11 (TASK-011).
 ### TASK-012 — Research new possession data and retry external tuning
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-010
 - Goal: Audit ten additional public resources and run a reproducible new-data tuning experiment, targeting >95% without claiming an unmeasured result.
 - Scope: external dataset adapter, synthetic tests, frozen match split/grid, candidate configuration, aggregate results and a Markdown methods/calculation report.
@@ -75,14 +70,10 @@ the former nested folder was moved here on 2026-11-11 (TASK-011).
 - Last updated: 2026-11-11
 - Handoff: retain v5 as experimental (more fragmentation, one test match worsened). Develop live/dead evidence with a fresh reserved external source; do not retune against now-inspected IDSSE or prior SkillCorner holdouts. No commit/push made.
 
-## Coordinated work (2026-11-09)
+## Current artifacts and inputs
 
-The lead established `docs/INTERFACE.md` before delegating. On 2026-11-09, the data agent owned
-`model/evidence.py`, `tests/test_evidence.py`, and data-audit notes (TASK-008).
-The model agent owned `model/inference.py` and `tests/test_inference.py` (TASK-009).
-The lead handled integration, and a read-only review agent inspected the result. The
-2026-11-10 TASK-005 extension is lead-owned. Official starter/evaluator files are unchanged.
-Public-window scores were never used for selection.
+Official starter and evaluator files are unchanged. Public-window scores were never used for
+model selection.
 
 Current final local output: `evaluation/results/NRDS.csv` (ignored by Git), SHA-256
 `97bf92b0c189c01d0b27b5bce897e3f5713ea5904cdb6b3edd524d0b29a0ff19`.
@@ -100,7 +91,6 @@ independent generalization result is available.
 ### TASK-001 — Establish official scorer and isolated environment
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: none
 - Goal: Execute the supplied public baseline scorer without gated data.
 - Scope: official starter snapshot, dependency lock, local setup instructions.
@@ -114,7 +104,6 @@ independent generalization result is available.
 ### TASK-002 — Audit actual tracking and regenerate baseline
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-001; authorized tactical ATD bundle
 - Goal: Verify input alignment and regenerate the official baseline from match data.
 - Scope: metadata/raw schema, frame counts, missingness, Excel comparison if supplied, baseline CSV.
@@ -128,7 +117,6 @@ independent generalization result is available.
 ### TASK-003 — Implement and synthetically verify temporal prototype
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-001
 - Goal: Explainable temporal possession labels with strict frame ingestion and no public-label tuning.
 - Scope: `model/`, `tests/`, configuration and behavior documentation.
@@ -142,7 +130,6 @@ independent generalization result is available.
 ### TASK-004 — Validate and reproduce full-length prototype output
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-002, TASK-003
 - Goal: Generate the exact 199,319-row prototype CSV twice with matching hashes.
 - Scope: input fingerprints, official validator, label and transition diagnostics, reproduction record.
@@ -156,7 +143,6 @@ independent generalization result is available.
 ### TASK-005 — Harden and extend temporal possession inference
 - Status: done
 - Priority: P1
-- Owner: lead (integration)
 - Depends on: TASK-004, TASK-008, TASK-009
 - Goal: Keep the verified separated pipeline and add a general offline timing rule that starts a confirmed stationary set-piece dead interval at the beginning of its observed window.
 - Scope: `model/evidence.py`, model docstrings, `model/temporal.py`, versioned configuration, synthetic tests, model rationale and diagnostics; preserve the v1 files and official starter/evaluator.
@@ -171,7 +157,6 @@ independent generalization result is available.
 ### TASK-008 — Extract and audit tactical frame evidence
 - Status: done
 - Priority: P1
-- Owner: data agent
 - Depends on: TASK-004; `docs/INTERFACE.md`
 - Goal: Return strict, documented per-frame tracking and tagging evidence for inference.
 - Scope: `model/evidence.py`, `tests/test_evidence.py`, data-audit notes only.
@@ -185,7 +170,6 @@ independent generalization result is available.
 ### TASK-009 — Extract and harden temporal inference
 - Status: done
 - Priority: P1
-- Owner: model agent
 - Depends on: TASK-004; `docs/INTERFACE.md`
 - Goal: Convert agreed evidence records into coherent H/A/D/X labels with reason codes.
 - Scope: `model/inference.py`, `tests/test_inference.py` only.
@@ -199,7 +183,6 @@ independent generalization result is available.
 ### TASK-006 — Compare fixed model on public external matches
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-005; public SkillCorner open data
 - Goal: Compare the fixed temporal model with provider possession fields across 10 external matches, without tuning on the challenge public window.
 - Scope: external-data provenance, separate 10 fps adapter, provider-label agreement and coverage, reproducible aggregate comparison; keep official challenge code and output unchanged.
@@ -214,7 +197,6 @@ independent generalization result is available.
 ### TASK-007 — Prepare the reproducible submission package
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-005; TASK-006 completed or explicitly deferred; registered team name
 - Goal: Produce an exact validated team-named CSV and short technical document from one documented command.
 - Scope: final configuration, input/code/dependency fingerprints, technical document, restricted-data review and delivery checklist.
@@ -228,7 +210,6 @@ independent generalization result is available.
 ### TASK-010 — Tune temporal settings on external matches
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: TASK-006; public SkillCorner development and holdout matches
 - Goal: Search a small predeclared configuration grid for higher agreement with external provider team labels, then assess the selected candidate on unseen matches.
 - Scope: external-only tuning runner and tests, versioned candidate config, holdout report, reproducible tactical output if retained. Preserve official baseline/evaluator and existing v2 output.
@@ -243,7 +224,6 @@ independent generalization result is available.
 ### TASK-011 — Isolate the project Git repository
 - Status: done
 - Priority: P1
-- Owner: Codex
 - Depends on: none
 - Goal: Make this folder the project Git root and stop unrelated folders under the home directory from inheriting a Git repository.
 - Scope: preserve the nested project's Git history, move its files into this folder, disable the home Git root, retain recoverable backups, and update stale path instructions.

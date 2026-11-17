@@ -63,7 +63,7 @@ documented generation, baseline, and evaluation commands; no unique work was del
   them would require a separate decision because they are not all demonstrably redundant.
 - No untouched compatible external final-test match exists. The documented v8 figures are
   development/provider-reference metrics, not independent accuracy or a private BAR–ATH score.
-- The assistant did not commit or push during the original cleanup. The owner subsequently
+- The original cleanup was not committed or pushed during its verification. The owner subsequently
   committed and pushed the changes as `2c6f9f1`. The present documentation follow-up is local;
   no organizer form submission has been made.
 
