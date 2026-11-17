@@ -34,8 +34,13 @@ data/*
 !data/README.md
 
 *.mp4
+*.mov
+*.mkv
+*.avi
 *.gzip
 *.pl3container
+*.xlsx
+*.xls
 
 # -- internal documents ---------------------------------------------------------------------------
 # OVERVIEW.md -- the institutional description of the competition -- IS committed. It is the only
@@ -59,7 +64,26 @@ organizers/
 .vscode/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
 .venv/
 venv/
 env/
+.env
+.env.*
+!.env.example
+*credentials*.json
+*client_secret*.json
+*service_account*.json
+*token*.json
+*.pem
+*.key
+*.log
+*.tmp
 .DS_Store

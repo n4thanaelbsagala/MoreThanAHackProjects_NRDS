@@ -30,3 +30,10 @@ files will not end up in a commit.
 The baselines are the exception because of how they are made, not because they are ours: they read
 the ATD and nothing else — never a ground truth, public or private — so they cannot carry
 information about the answer.
+
+## NRDS final artifact
+
+The team submission is generated locally as `NRDS.csv` with `model/config_v8.json`. It remains
+ignored here and is uploaded separately from the public code repository. Use the exact generation
+and validation commands in the root `README.md`; do not rename an experimental CSV as the final
+artifact without regenerating and validating it.

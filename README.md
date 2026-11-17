@@ -1,212 +1,144 @@
-# More than a Hack 2027 possession project
+# NRDS — More than a Hack 2027 ball possession
 
-The official public starter, scorer, four baseline CSVs, and challenge documents are copied from
+NRDS generates one possession label for every frame of the official BAR–ATH tactical timeline.
+The final submission model is the deterministic, offline **temporal v8** state machine configured
+by [`model/config_v8.json`](model/config_v8.json). It produces the required labels `H` (home live),
+`A` (away live), `D` (dead ball), and `X` (abstention).
+
+The official starter, scorer, baseline files, and challenge documentation are retained from
 [`metrica-sports/more-than-a-hack-2027`](https://github.com/metrica-sports/more-than-a-hack-2027)
-at commit `f8f2629ff1e0985f81d7e59d8413678514ee1530`. `games.py`, `starter/`, and
-`evaluation/` are unmodified upstream code and supplied predictions. Local work is in `model/`,
-`tests/`, `TASKS.md`, and `docs/`.
+at revision `f8f2629ff1e0985f81d7e59d8413678514ee1530`. Team code is separate under
+`model/`; the official evaluator and starter are unchanged.
 
-## Setup and public baseline check
+## Submission package
 
-Run from this directory. Python 3.9 or later is recommended. The pinned lock reflects the tested
-environment; `requirements.txt` remains the upstream dependency list.
+The official challenge requires three deliverables. The directory layout below is a project
+organization choice, not an additional organizer requirement.
+
+| Required deliverable | Project artifact |
+| --- | --- |
+| Possession CSV | `evaluation/results/NRDS.csv` (generated locally and intentionally ignored by Git) |
+| Public reproducible code repository | This repository, including pinned dependencies and tests |
+| Short technical document | [`docs/NRDS_technical_document.md`](docs/NRDS_technical_document.md) |
+
+The frozen-model record is [`model/v8_frozen.json`](model/v8_frozen.json). The expected SHA-256
+of the exact CSV is `97bf92b0c189c01d0b27b5bce897e3f5713ea5904cdb6b3edd524d0b29a0ff19`.
+The CSV must be uploaded separately; it is not intended for the public repository. For the form,
+upload the technical document under the organizer-recommended team filename `NRDS.md` (or an
+exported `NRDS.pdf`); the longer repository filename keeps its purpose explicit.
+
+## Directory layout
+
+```text
+.
+├── model/                  NRDS ingestion, evidence, temporal inference, and frozen config
+├── tests/                  synthetic, integration, metric, and leakage-safety tests
+├── docs/                   technical document, data audit, decisions, and verification records
+├── data/                   authorized local inputs (ignored except data/README.md)
+├── evaluation/             unchanged official scorer, validator, public GT, and baselines
+├── starter/                unchanged official loaders, notebooks, and baseline generator
+├── games.py                official match/frame constants
+├── requirements-lock.txt   pinned verified Python environment
+└── TASKS.md                completed work, evidence, blockers, and handoff
+```
+
+See [`model/README.md`](model/README.md) for the final runtime files versus historical experiments,
+and [`docs/README.md`](docs/README.md) for the documentation index.
+
+## Installation
+
+Python 3.9 or later is recommended. Run all commands from the repository root.
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-lock.txt
-baseline_dir=$(mktemp -d)
-cp evaluation/results/baseline_*.csv "$baseline_dir/"
-.venv/bin/python evaluation/run_evaluation.py --results "$baseline_dir" --out "$baseline_dir" --no-detail
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-The isolated scorer command reads only the four included baseline CSVs and the public five-minute
-ground truth. The public window checks the pipeline and must never select model parameters or variants. The full
-match score is private. The default results directory can contain local model CSVs, so use the
-isolated directory for a baseline-only run.
+`requirements.txt` is the official upstream list; `requirements-lock.txt` pins the environment
+used for the verified NRDS generation.
 
-## Match assets and generation
+## Authorized data placement
 
-The gated assets are not tracked. Place the authorized bundle under `data/`, or set
-`MTAH_DATA_DIR` to its root, containing `tactical/BAR-ATH_tactical_atd.xml` and `.txt`.
-The model also requires `tactical/BAR-ATH_tactical_smart_tagging.xml`.
-Do not commit the bundle or generated frame-level outputs.
+Do not commit challenge assets. Either place the authorized bundle under `data/` or point
+`MTAH_DATA_DIR` to its root:
+
+```text
+$MTAH_DATA_DIR/
+└── tactical/
+    ├── BAR-ATH_tactical_atd.xml
+    ├── BAR-ATH_tactical_atd.txt
+    └── BAR-ATH_tactical_smart_tagging.xml
+```
 
 ```bash
-export MTAH_DATA_DIR=/absolute/path/to/authorized/bundle
+export MTAH_DATA_DIR=/absolute/path/to/OTWBARCA
 .venv/bin/python -c 'from starter.load_atd import check_alignment_raw; print(check_alignment_raw())'
-.venv/bin/python starter/baseline.py --out evaluation/generated_baseline
-.venv/bin/python evaluation/validate_submission.py evaluation/generated_baseline/baseline_smooth50.csv
-.venv/bin/python model/run.py --config model/config_v2.json --output evaluation/results/temporal_v2.csv --diagnostics evaluation/reports/temporal_v2_diagnostics.csv
-.venv/bin/python evaluation/validate_submission.py evaluation/results/temporal_v2.csv
-shasum -a 256 evaluation/results/temporal_v2.csv
 ```
 
-Repeat generation to a second output path with identical inputs and config, then compare the two
-hashes. Diagnostics are separate from the two-column prediction. Input file hashes should be
-recorded alongside the run. The model uses no random seed. `model/config.json` preserves the
-earlier v1 behavior and output; see `docs/verification/TASK-005.md`.
+V8 uses only those three tactical files. It does not require either video, homography, an Excel
+export, or broadcast data. The ATD loader maps `frame_id` to zero-based tactical frames with
+`video_frame = frame_id - 1`; Smart Tagging uses `round(seconds * 25)`.
 
-## Prototype behavior
-
-`model/evidence.py` loads ATD and automatic tags into strict zero-based frame records;
-`model/inference.py` applies the temporal state machine; `model/temporal.py` serializes labels and
-separate reason-code diagnostics. The interface is in `docs/INTERFACE.md`.
-`model/config_v2.json` records all thresholds and enables offline set-piece backfill. Per frame,
-the model measures distances from the ball to the nearest observed player of each team after
-scaling normalized pitch coordinates to metres.
-A candidate must be within 2 m of the ball and at least 0.75 m nearer than the other team's closest
-player. Twelve observed candidate frames are needed to establish or transfer control; gaps up to
-five frames do not discard accumulated evidence. Missing ball observations never imply dead play.
-An out-of-bounds ball sustained for 25 frames yields `D`. A ball observed within a 0.5 m
-region for 25 frames during an automatic set-piece tag also yields `D`; a tag by itself is never
-copied into the labels. In v2, once that full observed stationary window is confirmed, its earlier
-frames are also labeled `D`. Short, interrupted, unobserved, and halftime-crossing windows are not
-backfilled. A restart needs confirmed control.
-Each half resets independently; outside the graded half blocks output is `X`.
-
-These are general, conservative engineering defaults, **not fitted parameters**. The prototype
-uses only set-piece tags from the automatic tagging; it does not yet use homography, team motion,
-or video. In particular, it will miss many stoppages whose ball is missing rather than tracked
-outside the pitch or stationary in a set-piece interval, and it can delay fast turnovers.
-It has an external provider-agreement diagnostic on nineteen SkillCorner matches, but no independent
-human-labeled validation or demonstrated competition-score gain over the official baseline.
-See [data audit](docs/DATA_AUDIT.md), [tasks](TASKS.md), and verification records in `docs/verification/`.
-
-## External-match comparison (TASK-006)
-
-`model/compare_skillcorner.py` maps public SkillCorner 10 fps broadcast tracking to the same
-evidence contract. It scales only the frame-count durations from 25 fps to 10 fps; pitch distances
-stay in metres. The TASK-006 comparison used fixed v2 settings. The comparison uses
-SkillCorner's automatic per-frame possession field and its
-in-play phase intervals as **provider references**, not verified ground truth. Gaps in either
-reference are unknown, not dead-ball labels. The output contains aggregate counts and input
-fingerprints only; no tracking or frame-level prediction export is committed.
-
-Download the ten public matches at the pinned SkillCorner revision and run the exact commands in
-[`docs/verification/TASK-006.md`](docs/verification/TASK-006.md). The aggregate result is
-[`docs/verification/TASK-006-results.json`](docs/verification/TASK-006-results.json). This is
-not the official `spellF1` scorer, and its agreement figures must not be used to claim a higher
-challenge ranking. The comparison makes no parameter choice and uses no challenge public labels.
-
-## Experimental external-tuned variant (TASK-010)
-
-`model/tune_skillcorner.py` searched 144 configurations on the ten TASK-006 matches.
-It selected `model/config_v3.json`; a separately tested offline control-backfill rule is
-recorded in `model/config_v4.json`. Nine additional SkillCorner matches were held out
-until v4 was frozen. On their available provider team labels, v4 agreed on 82.94% of
-frames, versus 82.64% for v2; on provider live-phase frames, agreement was 88.72%.
-The requested roughly 90% per-frame agreement was not reached. These are noisy-provider
-comparisons, not official competition accuracy or `spellF1`.
-
-The v4 rule backfills H/A to the first frame of a sustained candidate run **only after**
-that run confirms control. Brief opposing touches remain with the last controlling team;
-the backfill requires an uninterrupted run (`evidence_gap_frames: 0`), and dead-ball and
-halftime boundaries reset pending evidence. V1 and v2 retain their earlier
-behavior. The official baseline and evaluator remain unchanged. The tuned variant may
-transfer differently from 10 fps broadcast tracking to 25 fps tactical tracking, so it
-is an experimental option rather than a proven final selection. Commands, source split,
-input hashes, BAR-ATH v4 output validation and limitations are in
-[`docs/verification/TASK-010.md`](docs/verification/TASK-010.md).
-
-## Additional sources and external tuning (TASK-012)
-
-The [ten-source catalog](docs/POSSESSION_DATA_RESEARCH.md) distinguishes usable tracking
-and possession references from sparse events, gated data and tracking-only resources.
-Seven new IDSSE/Sportec matches were used in a fixed five-development/two-test split.
-`model/external_idsse.py` maps their 25 Hz XML into evidence while keeping provider
-possession/live-dead fields exclusively in scoring references. `model/tune_idsse.py`
-searched 128 settings and saved the candidate in `model/config_v5_external.json`.
-
-On the two reserved matches, full H/A/D reference accuracy was **64.09%**, versus
-**63.75% for v4**; live-team agreement was **88.08%**, versus **87.69%**. The >95%
-target was not achieved. Dead-ball recall was 30.01%, and candidate intervals were
-more fragmented. V5 is an experimental artifact, with no demonstrated challenge
-ranking gain. The earlier configurations and inference implementation are preserved.
-
-The [methods and accuracy report](docs/verification/TASK-012.md) contains match dates
-and teams, exact counts/formulas, download and execution commands, hashes and limitations.
-The candidate tactical CSV is ignored at `evaluation/results/temporal_v5_external.csv`;
-it passed the official format validator and repeat generation matched byte for byte.
-
-## Observed unattended stoppage candidate (TASK-013)
-
-`model/config_v6_stoppage.json` keeps the v4 control settings and adds an optional
-dead-ball cue. When the ball remains within a 0.5 m area for two seconds and the
-nearest observed player on **each** team stays at least 3 m away, the confirmed
-interval becomes D. It is computed within each half, needs actual ball and player
-observations, and cannot bridge missing frames. After D, the model waits for
-confirmed control before assigning H or A. This addresses a specific failure mode
-where a stationary, unattended ball remained assigned to a team during a stoppage.
-
-The [TASK-013 record](docs/verification/TASK-013.md) contains the external development
-diagnostic and tactical output checks. The new artifact is
-`evaluation/results/temporal_v6_stoppage.csv` (ignored).
-
-On five already-used IDSSE development matches, full H/A/D provider agreement rose
-from 63.72% to 80.92%, while live-team agreement fell from 83.74% to 81.87% and
-transitions increased. These are exploratory diagnostics, not independent test
-results or evidence of a better competition ranking.
-
-Run the tactical candidate with:
+## Generate the final prediction
 
 ```bash
-.venv/bin/python model/run.py --config model/config_v6_stoppage.json \
-  --output evaluation/results/temporal_v6_stoppage.csv \
-  --diagnostics evaluation/reports/temporal_v6_stoppage_diagnostics.csv
-.venv/bin/python evaluation/validate_submission.py evaluation/results/temporal_v6_stoppage.csv
+.venv/bin/python model/run.py \
+  --config model/config_v8.json \
+  --output evaluation/results/NRDS.csv \
+  --diagnostics evaluation/reports/NRDS_diagnostics.csv
 ```
 
-## Frozen v7 candidate and independent WCSF check (TASK-014)
-
-`model/config_v7_stoppage.json` is the current candidate. It keeps v4 possession-control
-settings and changes only the observed unattended-ball cue to one second, a 0.5 m stationary
-radius and a 2 m nearest-player clearance. Those values were selected by official `spell_f1_mean`
-on five previously declared IDSSE development matches. The challenge public labels were not read.
-
-The candidate was frozen before opening a separately reserved, anonymized WCSF professional
-match. On that one 57,374-frame provider-reference match, v7 scored **0.4770 spellF1** and
-**76.47% H/A/D agreement**, versus 0.4504 and 66.42% for v6. This is external provider agreement,
-not an official challenge score or evidence of 90% accuracy. The source has no public team names
-or match date. The latest accuracy, spell and dead-ball analysis is highlighted in
-[`docs/verification/TASK-014.md`](docs/verification/TASK-014.md).
-
-Generate and check the selected tactical prediction with:
+Diagnostics are deliberately separate from the two-column submission. V8 is deterministic and
+has no random seed. To verify reproducibility without replacing the deliverable:
 
 ```bash
-export MTAH_DATA_DIR=/absolute/path/to/authorized/bundle
-.venv/bin/python model/run.py --config model/config_v7_stoppage.json \
-  --output evaluation/results/temporal_v7_stoppage.csv \
-  --diagnostics evaluation/reports/temporal_v7_stoppage_diagnostics.csv
-.venv/bin/python evaluation/validate_submission.py evaluation/results/temporal_v7_stoppage.csv
-shasum -a 256 evaluation/results/temporal_v7_stoppage.csv
+repeat_dir=$(mktemp -d)
+.venv/bin/python model/run.py \
+  --config model/config_v8.json \
+  --output "$repeat_dir/NRDS.csv" \
+  --diagnostics "$repeat_dir/NRDS_diagnostics.csv"
+cmp evaluation/results/NRDS.csv "$repeat_dir/NRDS.csv"
+shasum -a 256 evaluation/results/NRDS.csv "$repeat_dir/NRDS.csv"
 ```
 
-## Frozen v8 grouped-development candidate (TASK-015)
+## Validate and evaluate
 
-V8 keeps v7's controlling-team and unattended-ball rules and adds a confirmed observed-
-stationary-ball cue. A valid in-pitch ball must remain within 0.5 m for 75 frames while both
-teams have valid nearest-player distances. Missing tracking is never D, halves reset state, and
-an exact coordinated tracking freeze suppresses the new cue. Confirmation backfills its observed
-window, so inference is offline with up to three seconds of lookahead.
-
-Seven complete IDSSE matches were grouped by match in leave-one-match-out development evaluation.
-WCSF, all previously inspected SkillCorner matches, and the challenge public window were excluded
-from selection. The frozen v8 candidate reached 88.55% pooled development H/A/D provider
-agreement and 0.4785 official spellF1; the grouped out-of-fold selection result was 88.77% and
-0.4841. These are not independent results: all compatible matches had already been inspected, so
-independent 85% accuracy remains unverified. See
-[`docs/verification/TASK-015.md`](docs/verification/TASK-015.md) for metric definitions,
-ablations, per-match results, leakage controls, fingerprints, and limitations.
+Validate the exact file that will be uploaded:
 
 ```bash
-.venv/bin/python -m model.cross_validate_v8 \
-  --data-root data/external/idsse \
-  --output docs/verification/TASK-015-development.json \
-  --config-out model/config_v8.json
-
-.venv/bin/python model/run.py --config model/config_v8.json \
-  --output evaluation/results/temporal_v8.csv \
-  --diagnostics evaluation/reports/temporal_v8_diagnostics.csv
-.venv/bin/python evaluation/validate_submission.py evaluation/results/temporal_v8.csv
+.venv/bin/python evaluation/validate_submission.py evaluation/results/NRDS.csv
 ```
+
+The validator must find exactly the columns `frame,label`, 199,319 data rows, ordered unique
+frames 0–199318, and only H/A/D/X labels.
+
+To reproduce the official baseline **public-window pipeline check** without accidentally scoring
+local predictions:
+
+```bash
+baseline_dir=$(mktemp -d)
+cp evaluation/results/baseline_*.csv "$baseline_dir/"
+.venv/bin/python evaluation/run_evaluation.py \
+  --results "$baseline_dir" --out "$baseline_dir" --no-detail
+```
+
+The public five-minute labels are not training or model-selection data. `spellF1` is the ranking
+metric; public-window accuracy is not a private full-match score. NRDS has no observed private
+BAR–ATH accuracy. V8's recorded 88.55% H/A/D agreement and 0.4785 spellF1 are development results
+against provider reference fields on seven external IDSSE matches, not independent challenge
+results. Full definitions, provenance, ablations, and limitations are in
+[`docs/verification/TASK-015.md`](docs/verification/TASK-015.md).
+
+## Model behavior and records
+
+V8 treats proximity as evidence rather than proof. It requires sustained opposing control before
+a turnover, retains the last controller through loose or missing-ball periods, separates
+dead-ball evidence from team control, requires confirmed control after a restart, and resets all
+state at halftime. Confirmed windows may be backfilled, so inference is offline with up to three
+seconds of lookahead. Threshold provenance and the absence of an untouched compatible final test
+are documented in the technical document and frozen record.
+
+Restricted assets, generated frame-level predictions, credentials, caches, and environments are
+excluded by [`.gitignore`](.gitignore). Do not add private ground truth or manually correct the
+provided match. See [`TASKS.md`](TASKS.md) for the current handoff.

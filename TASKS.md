@@ -1,4 +1,18 @@
-# Task board — 2026-11-12
+# Task board — 2026-11-16
+
+### TASK-016 — Organize and verify the final submission repository
+- Status: done
+- Priority: P1
+- Owner: Codex
+- Depends on: TASK-007, TASK-015
+- Goal: Present the frozen v8 implementation as a clear, reproducible submission repository without changing predictions or official challenge code.
+- Scope: root handoff README; model and documentation indexes; final artifact naming; ignore-rule and tracked-history safety audit; removal of byte-identical generated duplicates; current task handoff. Preserve unique experiments and restricted local inputs.
+- Acceptance criteria: mandatory submission items are distinguished from suggested layout; exact v8 generation/validation commands are prominent; final model, configuration, CSV, and technical document are unambiguous; restricted files and credentials remain untracked; documented generation reproduces the checked CSV; official starter/evaluator stay unchanged.
+- Verification: full unit suite; strict ATD alignment; exact v8 regeneration and SHA-256 comparison; official validator; isolated official baseline scorer; tracked/current-history safety scan; `git diff --check`; final tree and diff review.
+- Evidence: README/model/docs indexes identify the final package and exact command; only byte-identical ignored repeats and recreatable generated outputs were removed. All 100 tests passed; strict ATD alignment passed; fresh v8 output and diagnostics matched the retained files byte-for-byte; the exact 199,319-row NRDS CSV passed the official validator; the isolated official baseline scorer ran; secret/restricted-history, ignore-rule, official-code, diff, and tree reviews passed. Full record: `docs/verification/TASK-016.md`.
+- Blocker: none for local organization. Publishing or submitting still requires explicit authorization.
+- Last updated: 2026-11-16
+- Handoff: team reviews the organized diff and technical document, then separately authorizes any commit/push. Upload the validated ignored `NRDS.csv`, public repository URL, and technical document through the organizer form; no submission has been made.
 
 ### TASK-015 — Improve dead-ball generalization with grouped development evaluation
 - Status: done
@@ -26,7 +40,7 @@
 - Evidence: Stage 1 reservation saved in `model/wcsf_protocol.json` before data download or scoring. Public source HEAD was `1c9ba798f98a9fffb16081a5d3965774d4e5662c` when reserved on 2026-11-12; sealed archive hashes are `e7e5d753...` and `8653a296...`. Stage 2 searched 75 settings on only the five declared IDSSE development matches and froze `model/config_v7_stoppage.json` at SHA-256 `c28b2df9...` before archive inspection. Development metrics: spellF1 0.43125, macro-F1 0.82925, H/A/D agreement 84.07%, dead recall 87.04%, live-team agreement 81.51%. On the one fresh 57,374-frame WCSF match, v7 led the predeclared comparison with spellF1 0.47698 and 76.47% H/A/D agreement; this is provider agreement, not challenge accuracy. All 81 tests passed. The selected 199,319-row tactical CSV passed the official validator and two generations matched SHA-256 `5637746f...`; diagnostics also matched. `git diff --check` passed, official baseline/evaluator files are unchanged, and upstream HEAD remains the pinned `f8f2629...`. Full record: `docs/verification/TASK-014.md`.
 - Blocker: none for stages 1–4. The WCSF source contains one anonymized professional match, so evidence is limited and the earlier 10–50-match/90% aspirations remain unmet.
 - Last updated: 2026-11-12
-- Handoff: use v7 as the current challenge candidate. TASK-007 remains: prepare the team-named submission and technical document once the registered team name is supplied; do not claim an official/private score.
+- Handoff: historical checkpoint only; TASK-015 superseded v7 with frozen v8 and TASK-007 prepared the NRDS package. Do not claim an official/private score.
 
 ### TASK-013 — Detect observed unattended stoppages
 - Status: done
@@ -70,8 +84,8 @@ The lead handled integration, and a read-only review agent inspected the result.
 2026-11-10 TASK-005 extension is lead-owned. Official starter/evaluator files are unchanged.
 Public-window scores were never used for selection.
 
-Current local output: `evaluation/results/temporal_v2.csv` (ignored by Git), SHA-256
-`dce2ebdb60ecf31967907e7fdb031eafb5533c5642561239cdc285ca149a0c9f`.
+Current final local output: `evaluation/results/NRDS.csv` (ignored by Git), SHA-256
+`97bf92b0c189c01d0b27b5bce897e3f5713ea5904cdb6b3edd524d0b29a0ff19`.
 The experimental external-tuned v4 output is `evaluation/results/temporal_v4.csv`
 (ignored), SHA-256 `9b14309313b4d5e163d8513b06c1c87afcfbb489b3259f3f7f647d5a4955a655`.
 The v1 output remains byte-identical to its 2026-11-09 artifact. V2 changes only
@@ -79,8 +93,9 @@ confirmed stationary set-piece timing and has no established accuracy gain.
 The tactical ATD and tagging inputs are present only under ignored `data/tactical/` in this
 workspace; a fresh clone needs the authorized bundle. Nineteen public SkillCorner matches and
 seven IDSSE matches are available under ignored `data/external/` for provider-reference checks, but
-independent human-labeled external data, a registered team name, and a final technical document
-are not available. No performance improvement over the official baseline has been established.
+independent human-labeled external data is not available. The registered team name is NRDS and
+the final technical document is `docs/NRDS_technical_document.md`. No private BAR–ATH score or
+independent generalization result is available.
 
 ### TASK-001 — Establish official scorer and isolated environment
 - Status: done
@@ -197,7 +212,7 @@ are not available. No performance improvement over the official baseline has bee
 - Handoff: prepare TASK-007 submission document once the registered team name is known; seek a compatible independent labeled match before claiming any model gain.
 
 ### TASK-007 — Prepare the reproducible submission package
-- Status: verifying
+- Status: done
 - Priority: P1
 - Owner: Codex
 - Depends on: TASK-005; TASK-006 completed or explicitly deferred; registered team name
@@ -206,9 +221,9 @@ are not available. No performance improvement over the official baseline has bee
 - Acceptance criteria: exact team-named CSV passes the official validator; repeated generation hashes match; document covers approach, assets, training-data provenance, possession rules, limitations and reproduction; no restricted assets or reconstructive exports are tracked.
 - Verification: official validator, repeat hash, clean-clone reproduction instructions, diff and Git content review; record in `docs/verification/TASK-007.md`.
 - Evidence: Team name `NRDS` confirmed. Frozen temporal v8 and local `evaluation/results/NRDS.csv` selected. The submission-ready document is `docs/NRDS_technical_document.md`. Current public revision `ce39ad6...` passed 100 tests and regenerated the exact validated CSV, SHA-256 `97bf92b0...a0ff19`. Content, provenance, rules, secrets/restricted-data, diff and claim checks passed. Full record: `docs/verification/TASK-007.md`.
-- Blocker: none for local package preparation. Committing/pushing the document and submitting the form require separate user authorization.
+- Blocker: none for local package preparation. Submission through the organizer form requires separate user action; no organizer acceptance is implied.
 - Last updated: 2026-11-16
-- Handoff: review the technical document with the team, then request authorization to commit/push it. Upload `NRDS.csv`, the public repository URL and the technical document through the team’s emailed Google Form; no form submission has been made.
+- Handoff: upload `NRDS.csv`, the public repository URL, and the technical document through the team’s emailed Google Form after the final repository review; no form submission has been made.
 
 ### TASK-010 — Tune temporal settings on external matches
 - Status: done

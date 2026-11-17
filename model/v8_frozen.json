@@ -25,6 +25,6 @@
     "status": "not_run",
     "reason": "No genuinely untouched compatible match is available."
   },
-  "inference_command": ".venv/bin/python model/run.py --config model/config_v8.json --output evaluation/results/temporal_v8.csv --diagnostics evaluation/reports/temporal_v8_diagnostics.csv",
+  "inference_command": ".venv/bin/python model/run.py --config model/config_v8.json --output evaluation/results/NRDS.csv --diagnostics evaluation/reports/NRDS_diagnostics.csv",
   "evaluation_command": ".venv/bin/python -m model.cross_validate_v8 --data-root data/external/idsse --output docs/verification/TASK-015-development.json --config-out model/config_v8.json"
 }
